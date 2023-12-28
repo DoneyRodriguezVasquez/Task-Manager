@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+    Tareas
+{% endblock title %}
+
+{% block content %}
+<section class="mt-3">
+    <h5 class="text-center">
+       Administrador de tareas
+    </h5>
+    <div class="container-fluid position-relative">
+        <div class="container my-3 my-lg-5">
+            <div class="row justify-content-center vh-100">
+                <!-- To do tasks -->
+                <div class="col shadow-sm mx-2 bg-light py-2" id="todo" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    <h5>
+                        PENDIENTE
+                    </h5>
+                    <div class="d-flex flex-column align-items-center justify-content-center mt-3">
+                        <!-- card -->
+                        <div id="todotarget1" ondragstart="dragStart(event)" draggable="true"
+                            class="card rounded-0 w-100 mb-3 border-0 border-start border-primary border-3 shadow-sm">
+                            <div class="card-body px-3 py-3">
+                                <div class="card-text mb-2">Details of Task</div>
+                                <div class="bg-primary d-inline p-1 fw-semibold small text-white project-name">
+                                    Project Name</div>
+                            </div>
+                        </div>
+                        <!-- card -->
+                        <div id="todotarget2" ondragstart="dragStart(event)" draggable="true"
+                            class="card rounded-0 w-100 mb-3 border-0 border-start border-primary border-3 shadow-sm">
+                            <div class="card-body px-3 py-3">
+                                <div class="card-text mb-2">Details of Task</div>
+                                <div class="bg-primary d-inline p-1 fw-semibold small text-white project-name">
+                                    Project Name</div>
+                            </div>
+                        </div>
+                        <!-- card -->
+                        <div id="todotarget3" ondragstart="dragStart(event)" draggable="true"
+                            class="card rounded-0 w-100 mb-3 border-0 border-start border-primary border-3 shadow-sm">
+                            <div class="card-body px-3 py-3">
+                                <div class="card-text mb-2">Details of Task</div>
+                                <div class="bg-primary d-inline p-1 fw-semibold small text-white project-name">
+                                    Project Name</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- To do tasks -->
+                <div class="col shadow-sm mx-2 bg-light py-2" id="waiting" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    <h5>
+                        EN ESPERA
+                    </h5>
+                    <div class="d-flex flex-column align-items-center justify-content-center mt-3">
+                        <!-- card -->
+                        <div id="waitingtarget1" ondragstart="dragStart(event)" draggable="true"
+                            class="card rounded-0 w-100 mb-3 border-0 border-start border-secondary border-3 shadow-sm">
+                            <div class="card-body px-3 py-3">
+                                <div class="card-text mb-2">Details of Task</div>
+                                <div class="bg-secondary d-inline p-1 fw-semibold small text-white project-name">
+                                    Project Name</div>
+                            </div>
+                        </div>
+                        <!-- card -->
+                        <div id="waitingtarget2" ondragstart="dragStart(event)" draggable="true"
+                            class="card rounded-0 w-100 mb-3 border-0 border-start border-secondary border-3 shadow-sm">
+                            <div class="card-body px-3 py-3">
+                                <div class="card-text mb-2">Details of Task</div>
+                                <div class="bg-secondary d-inline p-1 fw-semibold small text-white project-name">
+                                    Project Name</div>
+                            </div>
+                        </div>
+                        <!-- card -->
+                        <div id="waitingtarget3" ondragstart="dragStart(event)" draggable="true"
+                            class="card rounded-0 w-100 mb-3 border-0 border-start border-secondary border-3 shadow-sm">
+                            <div class="card-body px-3 py-3">
+                                <div class="card-text mb-2">Details of Task</div>
+                                <div class="bg-secondary d-inline p-1 fw-semibold small text-white project-name">
+                                    Project Name</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- To do tasks -->
+                <div class="col shadow-sm mx-2 bg-light py-2" id="progress" ondrop="drop(event)"
+                    ondragover="allowDrop(event)">
+                    <h5>
+                        EN PROGRESO
+                    </h5>
+                    <div class="d-flex flex-column align-items-center justify-content-center mt-3">
+                        <!-- card -->
+                        <div id="inprogresstarget1" ondragstart="dragStart(event)" draggable="true"
+                            class="card rounded-0 w-100 mb-3 border-0 border-start border-warning border-3 shadow-sm">
+                            <div class="card-body px-3 py-3">
+                                <div class="card-text mb-2">Details of Task</div>
+                                <div class="bg-warning d-inline p-1 fw-semibold small text-white project-name">
+                                    Project Name</div>
+                            </div>
+                        </div>
+                        <!-- card -->
+                        <div id="inprogresstarget2" ondragstart="dragStart(event)" draggable="true"
+                            class="card rounded-0 w-100 mb-3 border-0 border-start border-warning border-3 shadow-sm">
+                            <div class="card-body px-3 py-3">
+                                <div class="card-text mb-2">Details of Task</div>
+                                <div class="bg-warning d-inline p-1 fw-semibold small text-white project-name">
+                                    Project Name</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- tasks completed -->
+                <div class="col shadow-sm mx-2 bg-light py-2" id="completed" ondrop="drop(event)"
+                    ondragover="allowDrop(event)">
+                    <h5>
+                        COMPLETADA
+                    </h5>
+                    <div class="d-flex flex-column align-items-center justify-content-center mt-3">
+                        <!-- card -->
+                        <div id="completedtarget1" ondragstart="dragStart(event)" draggable="true"
+                            class="card rounded-0 w-100 mb-3 border-0 border-start border-success border-3 shadow-sm">
+                            <div class="card-body px-3 py-3">
+                                <div class="card-text mb-2">Details of Task</div>
+                                <div class="bg-success d-inline p-1 fw-semibold small text-white project-name">
+                                    Project Name</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
+{% endblock content %}
