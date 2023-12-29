@@ -12,120 +12,109 @@
     <div class="container-fluid position-relative">
         <div class="container my-3 my-lg-5">
             <div class="row justify-content-center vh-100">
-                <!-- To do tasks -->
                 <div class="col shadow-sm mx-2 bg-light py-2" id="todo" ondrop="drop(event)" ondragover="allowDrop(event)">
-                    <h5>
-                        PENDIENTE
-                    </h5>
-                    <div class="d-flex flex-column align-items-center justify-content-center mt-3">
-                        <!-- card -->
-                        <div id="todotarget1" ondragstart="dragStart(event)" draggable="true"
-                            class="card rounded-0 w-100 mb-3 border-0 border-start border-primary border-3 shadow-sm">
-                            <div class="card-body px-3 py-3">
-                                <div class="card-text mb-2">Details of Task</div>
-                                <div class="bg-primary d-inline p-1 fw-semibold small text-white project-name">
-                                    Project Name</div>
+                    <h5 class="text-center">
+                        TO DO
+                    </h5>    
+                    {% for task in tasks %}
+                        {% if task.state == 'TO_DO'%}
+                            <div class="d-flex flex-column align-items-center justify-content-center mt-3">
+                                <!-- card -->
+                                <div id="todotarget1" ondragstart="dragStart(event)" draggable="true"
+                                    class="card rounded-0 w-100 mb-3 border-0 border-start border-primary border-3 shadow-sm">
+                                    <div class="card-header d-inline p-1 fw-semibold text-muted">
+                                        {{ task.title }}
+                                    </div>
+                                    <div class="card-body px-3 py-3">
+                                        <div class="card-text mb-2">{{ task.description }}</div>
+                                        <a href="{% url 'task:task_detail' task.id %}" class="btn btn-primary">Ver tarea</a>
+                                        <a href="{% url 'task:edit_task' task.id %}" class="btn btn-primary">Editar tarea</a>
+                                    </div>
+                                    <div class="card-footer text-muted small">
+                                        Fecha vencimiento: {{ task.date }}
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <!-- card -->
-                        <div id="todotarget2" ondragstart="dragStart(event)" draggable="true"
-                            class="card rounded-0 w-100 mb-3 border-0 border-start border-primary border-3 shadow-sm">
-                            <div class="card-body px-3 py-3">
-                                <div class="card-text mb-2">Details of Task</div>
-                                <div class="bg-primary d-inline p-1 fw-semibold small text-white project-name">
-                                    Project Name</div>
-                            </div>
-                        </div>
-                        <!-- card -->
-                        <div id="todotarget3" ondragstart="dragStart(event)" draggable="true"
-                            class="card rounded-0 w-100 mb-3 border-0 border-start border-primary border-3 shadow-sm">
-                            <div class="card-body px-3 py-3">
-                                <div class="card-text mb-2">Details of Task</div>
-                                <div class="bg-primary d-inline p-1 fw-semibold small text-white project-name">
-                                    Project Name</div>
-                            </div>
-                        </div>
-                    </div>
+                        {% endif %}
+                    {% endfor %}
                 </div>
-                <!-- To do tasks -->
                 <div class="col shadow-sm mx-2 bg-light py-2" id="waiting" ondrop="drop(event)" ondragover="allowDrop(event)">
-                    <h5>
-                        EN ESPERA
-                    </h5>
-                    <div class="d-flex flex-column align-items-center justify-content-center mt-3">
-                        <!-- card -->
-                        <div id="waitingtarget1" ondragstart="dragStart(event)" draggable="true"
-                            class="card rounded-0 w-100 mb-3 border-0 border-start border-secondary border-3 shadow-sm">
-                            <div class="card-body px-3 py-3">
-                                <div class="card-text mb-2">Details of Task</div>
-                                <div class="bg-secondary d-inline p-1 fw-semibold small text-white project-name">
-                                    Project Name</div>
+                    <h5 class="text-center">
+                        WAITING
+                    </h5>    
+                    {% for task in tasks %}
+                        {% if task.state == 'WAITING'%}
+                            <div class="d-flex flex-column align-items-center justify-content-center mt-3">
+                                <!-- card -->
+                                <div id="waitingtarget1" ondragstart="dragStart(event)" draggable="true"
+                                    class="card rounded-0 w-100 mb-3 border-0 border-start border-secondary border-3 shadow-sm">
+                                    <div class="card-header d-inline p-1 fw-semibold text-muted">
+                                        {{ task.title }}
+                                    </div>
+                                    <div class="card-body px-3 py-3">
+                                        <div class="card-text mb-2">{{ task.description }}</div>
+                                        <a href="{% url 'task:task_detail' task.id %}" class="btn btn-secondary">Ver tarea</a>
+                                        <a href="{% url 'task:edit_task' task.id %}" class="btn btn-secondary">Editar tarea</a>
+                                    </div>
+                                    <div class="card-footer text-muted small">
+                                        Fecha vencimiento: {{ task.date }}
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <!-- card -->
-                        <div id="waitingtarget2" ondragstart="dragStart(event)" draggable="true"
-                            class="card rounded-0 w-100 mb-3 border-0 border-start border-secondary border-3 shadow-sm">
-                            <div class="card-body px-3 py-3">
-                                <div class="card-text mb-2">Details of Task</div>
-                                <div class="bg-secondary d-inline p-1 fw-semibold small text-white project-name">
-                                    Project Name</div>
-                            </div>
-                        </div>
-                        <!-- card -->
-                        <div id="waitingtarget3" ondragstart="dragStart(event)" draggable="true"
-                            class="card rounded-0 w-100 mb-3 border-0 border-start border-secondary border-3 shadow-sm">
-                            <div class="card-body px-3 py-3">
-                                <div class="card-text mb-2">Details of Task</div>
-                                <div class="bg-secondary d-inline p-1 fw-semibold small text-white project-name">
-                                    Project Name</div>
-                            </div>
-                        </div>
-                    </div>
+                        {% endif %}
+                    {% endfor %}
                 </div>
-                <!-- To do tasks -->
-                <div class="col shadow-sm mx-2 bg-light py-2" id="progress" ondrop="drop(event)"
-                    ondragover="allowDrop(event)">
-                    <h5>
-                        EN PROGRESO
-                    </h5>
-                    <div class="d-flex flex-column align-items-center justify-content-center mt-3">
-                        <!-- card -->
-                        <div id="inprogresstarget1" ondragstart="dragStart(event)" draggable="true"
-                            class="card rounded-0 w-100 mb-3 border-0 border-start border-warning border-3 shadow-sm">
-                            <div class="card-body px-3 py-3">
-                                <div class="card-text mb-2">Details of Task</div>
-                                <div class="bg-warning d-inline p-1 fw-semibold small text-white project-name">
-                                    Project Name</div>
+                <div class="col shadow-sm mx-2 bg-light py-2" id="todo" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    <h5 class="text-center">
+                        IN PROGRESS
+                    </h5>    
+                    {% for task in tasks %}
+                        {% if task.state == 'IN_PROGRESS'%}
+                            <div class="d-flex flex-column align-items-center justify-content-center mt-3">
+                                <!-- card -->
+                                <div id="todotarget1" ondragstart="dragStart(event)" draggable="true"
+                                    class="card rounded-0 w-100 mb-3 border-0 border-start border-warning border-3 shadow-sm">
+                                    <div class="card-header d-inline p-1 fw-semibold text-muted">
+                                        {{ task.title }}
+                                    </div>
+                                    <div class="card-body px-3 py-3">
+                                        <div class="card-text mb-2">{{ task.description }}</div>
+                                        <a href="{% url 'task:task_detail' task.id %}" class="btn btn-warning">Ver tarea</a>
+                                        <a href="{% url 'task:edit_task' task.id %}" class="btn btn-warning">Editar tarea</a>
+                                    </div>
+                                    <div class="card-footer text-muted small">
+                                        Fecha vencimiento: {{ task.date }}
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <!-- card -->
-                        <div id="inprogresstarget2" ondragstart="dragStart(event)" draggable="true"
-                            class="card rounded-0 w-100 mb-3 border-0 border-start border-warning border-3 shadow-sm">
-                            <div class="card-body px-3 py-3">
-                                <div class="card-text mb-2">Details of Task</div>
-                                <div class="bg-warning d-inline p-1 fw-semibold small text-white project-name">
-                                    Project Name</div>
-                            </div>
-                        </div>
-                    </div>
+                        {% endif %}
+                    {% endfor %}
                 </div>
-                <!-- tasks completed -->
-                <div class="col shadow-sm mx-2 bg-light py-2" id="completed" ondrop="drop(event)"
-                    ondragover="allowDrop(event)">
-                    <h5>
-                        COMPLETADA
-                    </h5>
-                    <div class="d-flex flex-column align-items-center justify-content-center mt-3">
-                        <!-- card -->
-                        <div id="completedtarget1" ondragstart="dragStart(event)" draggable="true"
-                            class="card rounded-0 w-100 mb-3 border-0 border-start border-success border-3 shadow-sm">
-                            <div class="card-body px-3 py-3">
-                                <div class="card-text mb-2">Details of Task</div>
-                                <div class="bg-success d-inline p-1 fw-semibold small text-white project-name">
-                                    Project Name</div>
+                <div class="col shadow-sm mx-2 bg-light py-2" id="todo" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    <h5 class="text-center">
+                        DONE
+                    </h5>    
+                    {% for task in tasks %}
+                        {% if task.state == 'DONE'%}
+                            <div class="d-flex flex-column align-items-center justify-content-center mt-3">
+                                <!-- card -->
+                                <div id="todotarget1" ondragstart="dragStart(event)" draggable="true"
+                                    class="card rounded-0 w-100 mb-3 border-0 border-start border-success border-3 shadow-sm">
+                                    <div class="card-header d-inline p-1 fw-semibold text-muted">
+                                        {{ task.title }}
+                                    </div>
+                                    <div class="card-body px-3 py-3">
+                                        <div class="card-text mb-2">{{ task.description }}</div>
+                                        <a href="{% url 'task:task_detail' task.id %}" class="btn btn-success">Ver tarea</a>
+                                        <a href="{% url 'task:edit_task' task.id %}" class="btn btn-success">Editar tarea</a>
+                                    </div>
+                                    <div class="card-footer text-muted small">
+                                        Fecha vencimiento: {{ task.date }}
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
+                        {% endif %}
+                    {% endfor %}
                 </div>
             </div>
         </div>
