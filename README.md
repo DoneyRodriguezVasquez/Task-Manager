@@ -1,5 +1,5 @@
-# FacturacionElectronica
+# Task Manager
 
-Proyecto personal para ayudar a gestionar el pago del impuesto al valor agregado (IVA).
+Proyecto personal la administración de las diferentes tareas que se llevan a cabo en mis proyectos de Programación. 
 
 Está aplicación usa Django y Python.
