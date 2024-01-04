@@ -12,110 +12,80 @@
     <div class="container-fluid position-relative">
         <div class="container my-3 my-lg-5">
             <div class="row justify-content-center vh-100">
-                <div class="col shadow-sm mx-2 bg-light py-2" id="todo" ondrop="drop(event)" ondragover="allowDrop(event)">
-                    <h5 class="text-center">
-                        TO DO
-                    </h5>    
-                    {% for task in tasks %}
-                        {% if task.state == 'TO_DO'%}
-                            <div class="d-flex flex-column align-items-center justify-content-center mt-3">
-                                <!-- card -->
-                                <div id="todotarget1" ondragstart="dragStart(event)" draggable="true"
-                                    class="card rounded-0 w-100 mb-3 border-0 border-start border-primary border-3 shadow-sm">
-                                    <div class="card-header d-inline p-1 fw-semibold text-muted">
-                                        {{ task.title }}
-                                    </div>
-                                    <div class="card-body px-3 py-3">
-                                        <div class="card-text mb-2">{{ task.description }}</div>
-                                        <a href="{% url 'task:task_detail' task.id %}" class="btn btn-primary">Ver tarea</a>
-                                        <a href="{% url 'task:edit_task' task.id %}" class="btn btn-primary">Editar tarea</a>
-                                    </div>
-                                    <div class="card-footer text-muted small">
-                                        Fecha vencimiento: {{ task.date }}
-                                    </div>
-                                </div>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-                <div class="col shadow-sm mx-2 bg-light py-2" id="waiting" ondrop="drop(event)" ondragover="allowDrop(event)">
-                    <h5 class="text-center">
-                        WAITING
-                    </h5>    
-                    {% for task in tasks %}
-                        {% if task.state == 'WAITING'%}
-                            <div class="d-flex flex-column align-items-center justify-content-center mt-3">
-                                <!-- card -->
-                                <div id="waitingtarget1" ondragstart="dragStart(event)" draggable="true"
-                                    class="card rounded-0 w-100 mb-3 border-0 border-start border-secondary border-3 shadow-sm">
-                                    <div class="card-header d-inline p-1 fw-semibold text-muted">
-                                        {{ task.title }}
-                                    </div>
-                                    <div class="card-body px-3 py-3">
-                                        <div class="card-text mb-2">{{ task.description }}</div>
-                                        <a href="{% url 'task:task_detail' task.id %}" class="btn btn-secondary">Ver tarea</a>
-                                        <a href="{% url 'task:edit_task' task.id %}" class="btn btn-secondary">Editar tarea</a>
-                                    </div>
-                                    <div class="card-footer text-muted small">
-                                        Fecha vencimiento: {{ task.date }}
+                {% for key,val in states.items %}
+                    <div class="col shadow-sm mx-2 bg-light py-2" id="{{ key }}" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        <h5 class="text-center">
+                            {{ val }}
+                        </h5>    
+                        {% for task in tasks %}
+                            {% if task.state == key %}
+                                <div class="d-flex flex-column align-items-center justify-content-center mt-3">
+                                    <!-- card -->
+                                    <div id="{{ task.state }}{{ task.id }}" ondragstart="dragStart(event)" draggable="true"
+                                        class="card rounded-0 w-100 mb-3 border-0 border-start border-3 shadow-sm
+                                            {% if task.state == 'TO_DO' %}border-primary 
+                                            {% elif task.state == 'WAITING'%}border-secondary
+                                            {% elif task.state == 'IN_PROGRESS'%}border-warning
+                                            {% elif task.state == 'DONE'%}border-success
+                                            {% endif %}
+                                            ">
+                                        <div class="card-header d-inline p-1 fw-semibold text-muted">
+                                            {{ task.title }}
+                                        </div>
+                                        <a class="text-decoration-none text-dark" data-bs-toggle="modal" data-bs-target="#{{ task.state }}-{{ task.id }}">
+                                            <div class="card-body px-3 py-3">
+                                                <input hidden value="{{ task.id }}" name="{{ task.state }}" class="properties">
+                                                <div class="card-text mb-2"><p class="">{{ task.description|truncatechars:50 }}</p></div>
+                                                <div class="rounded-2 d-inline p-1 fw-semibold small text-white project-name
+                                                    {% if task.state == 'TO_DO' %}bg-primary 
+                                                    {% elif task.state == 'WAITING'%}bg-secondary
+                                                    {% elif task.state == 'IN_PROGRESS'%}bg-warning
+                                                    {% elif task.state == 'DONE'%}bg-success
+                                                    {% endif %}
+                                                ">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;{{ task.id }}&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                                            </div>
+                                            <div class="card-footer text-muted small">
+                                                Fecha vencimiento: {{ task.date|date:"SHORT_DATE_FORMAT" }}
+                                            </div>
+                                        </a>
                                     </div>
                                 </div>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-                <div class="col shadow-sm mx-2 bg-light py-2" id="todo" ondrop="drop(event)" ondragover="allowDrop(event)">
-                    <h5 class="text-center">
-                        IN PROGRESS
-                    </h5>    
-                    {% for task in tasks %}
-                        {% if task.state == 'IN_PROGRESS'%}
-                            <div class="d-flex flex-column align-items-center justify-content-center mt-3">
-                                <!-- card -->
-                                <div id="todotarget1" ondragstart="dragStart(event)" draggable="true"
-                                    class="card rounded-0 w-100 mb-3 border-0 border-start border-warning border-3 shadow-sm">
-                                    <div class="card-header d-inline p-1 fw-semibold text-muted">
-                                        {{ task.title }}
-                                    </div>
-                                    <div class="card-body px-3 py-3">
-                                        <div class="card-text mb-2">{{ task.description }}</div>
-                                        <a href="{% url 'task:task_detail' task.id %}" class="btn btn-warning">Ver tarea</a>
-                                        <a href="{% url 'task:edit_task' task.id %}" class="btn btn-warning">Editar tarea</a>
-                                    </div>
-                                    <div class="card-footer text-muted small">
-                                        Fecha vencimiento: {{ task.date }}
-                                    </div>
-                                </div>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-                <div class="col shadow-sm mx-2 bg-light py-2" id="todo" ondrop="drop(event)" ondragover="allowDrop(event)">
-                    <h5 class="text-center">
-                        DONE
-                    </h5>    
-                    {% for task in tasks %}
-                        {% if task.state == 'DONE'%}
-                            <div class="d-flex flex-column align-items-center justify-content-center mt-3">
-                                <!-- card -->
-                                <div id="todotarget1" ondragstart="dragStart(event)" draggable="true"
-                                    class="card rounded-0 w-100 mb-3 border-0 border-start border-success border-3 shadow-sm">
-                                    <div class="card-header d-inline p-1 fw-semibold text-muted">
-                                        {{ task.title }}
-                                    </div>
-                                    <div class="card-body px-3 py-3">
-                                        <div class="card-text mb-2">{{ task.description }}</div>
-                                        <a href="{% url 'task:task_detail' task.id %}" class="btn btn-success">Ver tarea</a>
-                                        <a href="{% url 'task:edit_task' task.id %}" class="btn btn-success">Editar tarea</a>
-                                    </div>
-                                    <div class="card-footer text-muted small">
-                                        Fecha vencimiento: {{ task.date }}
+                                <!-- Modal -->
+                                <div class="modal fade" id="{{ task.state }}-{{ task.id }}" tabindex="-1" aria-labelledby="{{ task.state }}-{{ task.id }}{{ task.date|date:"SHORT_DATE_FORMAT" }}" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="{{ task.state }}-{{ task.id }}{{ task.date|date:"SHORT_DATE_FORMAT" }}">Detalle de la tarea</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <dl class="row">
+                                                    <dt class="col-sm-3">Título:</dt>
+                                                    <dd class="col-sm-9">{{ task.title}}</dd>
+                                                    <dt class="col-sm-3">Responsable:</dt>
+                                                    <dd class="col-sm-9">{{ task.assigned_to }}</dd>
+                                                    <dt class="col-sm-3">Estado:</dt>
+                                                    <dd class="col-sm-9">{{ val }}</dd>
+                                                    <dt class="col-sm-3">Descripción de la tarea:</dt>
+                                                    <dd class="col-sm-9"><p>{{ task.description }}</p></dd>
+                                                    <dt class="col-sm-3">Fecha de entrega:</dt>
+                                                    <dd class="col-sm-9">{{ task.date|date:"SHORT_DATE_FORMAT" }}</dd>
+                                                    <dt class="col-sm-3">Comentarios:</dt>
+                                                    <dd class="col-sm-9">{{ task.comments }}</dd>
+                                                </dl>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                                <a class="btn btn-primary" href="{% url 'task:edit_task' task.id %}">Editar</a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endfor %}
             </div>
         </div>
 </section>
