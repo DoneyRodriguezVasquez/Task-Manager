@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.views import View
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.utils.decorators import method_decorator
 from .models import Task
@@ -15,7 +16,6 @@ def home_view(request):
             task.save()
     states = {'TO_DO':'TO DO','WAITING':'WAITING','IN_PROGRESS':'IN PROGRESS','DONE':'DONE'}
     tasks = Task.objects.all()
-    print(states)
     context = {'tasks': tasks, 'states': states }
     return render(request, 'home.html', context)
 
@@ -34,25 +34,45 @@ def task_detail(request, task_id):
 
 @login_required
 def create_task(request):
+    titulo = "Crear tarea"
     if request.method == 'POST':
-        form = TaskForm(request.POST, request.FILES)
+        form = TaskForm(request.POST)
         if form.is_valid():
             task = form.save(commit=False)
             task.assigned_to = request.user
             task.save()
-            return redirect('task_list')
+            return redirect('task:home')
     else:
         form = TaskForm()
-    return render(request, 'create_task.html', {'form': form})
+    return render(request, 'create_task.html', {'form': form, 'titulo': titulo})
 
 @login_required
 def edit_task(request, task_id):
+    titulo = "Editar tarea"
     task = get_object_or_404(Task, pk=task_id)
     if request.method == 'POST':
         form = TaskForm(request.POST, instance=task)
         if form.is_valid():
             form.save()
-            return redirect('home.html', task_id=task.id)
+            return redirect('task:home')
     else:
         form = TaskForm(instance=task)
-    return render(request, 'edit_task.html', {'form': form, 'task': task})
+    return render(request, 'create_task.html', {'form': form, 'task': task, 'titulo': titulo})
+
+@login_required
+def delete_task(request, task_id):
+    task = get_object_or_404(Task, pk=task_id)
+    if request.method == 'POST':
+        task.delete()
+        return redirect("task:home")
+    else:
+        form = TaskForm(instance=task)
+    return render(request, 'delete_task.html', {'form': form, 'task': task})
+
+@login_required  
+def config(request):
+    return render(request, 'config.html')
+
+def logout_view(request):
+    logout(request)
+    return redirect("task:home") 

@@ -25,7 +25,7 @@
             </div>
             <div class="row justify-content-center">
                 <div class="col-6 shadow-sm mx-auto bg-light py-2">
-                    <form method="post" action="{% url 'login' %}">
+                    <form method="post" action="">
                         {% csrf_token %}
                         
                         {% for field in form %}
@@ -37,7 +37,7 @@
                         {% endfor %}
                         <br />
                         <div class="d-grid gap-2 col mx-auto">
-                            <input type="hidden" name="next" value="{% url 'task_detail' %}">
+                            <input type="hidden" name="next" value="{% url 'task:home' %}">
                             <button class="btn btn-lg btn-primary" type="submit">Iniciar sesión</button>
                         </div>
                     </form>
