@@ -6,7 +6,7 @@ from .views import (
     delete_task,
     edit_task,
     config,
-    ListTasksView,
+    report,
 ) 
 
 app_name = 'task'
@@ -18,4 +18,5 @@ urlpatterns = [
     path('details/<int:task_id>/', task_detail, name='task_detail'),
     path('edit/<int:task_id>/', edit_task, name='edit_task'),
     path('delete/<int:task_id>/', delete_task, name='delete_task'),
+    path('report/', report, name='report'),
 ]

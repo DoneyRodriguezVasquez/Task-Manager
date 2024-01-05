@@ -1,10 +1,10 @@
 from django import forms
-from .models import Task
+from .models import Task, Project
 
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = ['title', 'description', 'project', 'date', 'assigned_to', 'state', 'comments']
+        fields = ['title', 'description', 'project', 'date', 'assigned_to', 'state','priority', 'comments']
         widgets = {
             'title' : forms.TextInput(
                 attrs={
@@ -45,6 +45,12 @@ class TaskForm(forms.ModelForm):
                     'id': 'floatingSelect2',
                 }
             ),
+            'priority': forms.Select(
+                attrs={
+                    'class': 'form-select',
+                    'id': 'floatingSelect4',
+                }
+            ),
             'comments' : forms.Textarea(
                 attrs={
                 'class': 'form-control',
@@ -54,5 +60,15 @@ class TaskForm(forms.ModelForm):
             ),
         }
 
-
+class ProjectForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        fields = ['name']
+        widgets = {
+            'name' : forms.TextInput(
+                attrs={
+                'class': 'form-control',
+                'id': 'floatingInput',
+            }),
+        }
         

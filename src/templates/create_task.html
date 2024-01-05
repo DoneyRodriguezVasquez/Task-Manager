@@ -12,7 +12,7 @@
     <div class="container position-relative">
         <div class="container my-3 my-lg-5">
             <div class="row justify-content-center">
-                <div class="col-6 shadow-sm mx-auto bg-light py-2">
+                <div class="col-sm-12 col-md-6 shadow-sm mx-auto bg-light py-2">
                     <form method="post" action="">
                         {% csrf_token %}
                         <div class="form-floating mb-3">
@@ -24,18 +24,24 @@
                             <label for="floatingTextarea">Descripción</label>
                         </div>
                         <div class="form-floating mb-3">
+                            {{ form.project }}
+                            <label for="floatingSelect">Proyecto</label>
+                        </div>
+                        <div class="form-floating mb-3">
                             {{ form.date }}
                             <label for="floatingInput2">Fecha de entrega</label>
                         </div>
                         <div class="form-floating mb-3">
                             {{ form.assigned_to }}
-                            </select>
                             <label for="floatingSelect">Asignado a</label>
                         </div>
                         <div class="form-floating mb-3">
                             {{ form.state }}
-                            </select>
                             <label for="floatingSelect2">Estado</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            {{ form.priority }}
+                            <label for="floatingSelect4">Prioridad</label>
                         </div>
                         <div class="form-floating mb-3">
                             {{ form.comments }}

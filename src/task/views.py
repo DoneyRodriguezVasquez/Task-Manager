@@ -1,11 +1,12 @@
-from django.shortcuts import render, get_object_or_404, redirect, reverse
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import logout
-from django.views.decorators.csrf import ensure_csrf_cookie
+from django.contrib.auth import logout, get_user_model
+from django.contrib.auth.forms import UserCreationForm
 from django.utils.decorators import method_decorator
-from .models import Task
-from .forms import TaskForm
+from django.db.models import Count
+from .models import Task, Project
+from .forms import TaskForm, ProjectForm
 
 @login_required
 def home_view(request):
@@ -71,7 +72,28 @@ def delete_task(request, task_id):
 
 @login_required  
 def config(request):
-    return render(request, 'config.html')
+    project = Project.objects.all()
+    User = get_user_model()
+    users = User.objects.all()
+    if request.method == 'POST':
+        form = ProjectForm(request.POST)
+        if form.is_valid():
+            form.save()
+
+    form = ProjectForm()
+    authForm = UserCreationForm()
+    return render(request, 'config.html', {'form': form, 'authForm':authForm, 'project':project, 'users':users})
+
+@login_required 
+def report(request):
+    # Obtener el recuento de tareas por estado
+    datos_reporte = Task.objects.values('state').annotate(total=Count('state'))
+
+    # Preparar datos para gráfico de barras
+    labels = [dato['state'] for dato in datos_reporte]
+    valores = [dato['total'] for dato in datos_reporte]
+
+    return render(request, 'report.html' , {'labels': labels, 'valores': valores})
 
 def logout_view(request):
     logout(request)

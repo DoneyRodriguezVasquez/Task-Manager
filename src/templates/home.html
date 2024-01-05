@@ -17,10 +17,10 @@
             </svg>
         </a>
 
-        <div class="container my-3 my-lg-5">
-            <div class="row justify-content-center vh-100">
+        <div class="container-fluid my-3 my-lg-5">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 justify-content-center vh-100">
                 {% for key,val in states.items %}
-                    <div class="col shadow-sm mx-2 bg-light py-2" id="{{ key }}" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    <div class="col-sm-12 col-md-3 col-lg-2 shadow-sm mx-2 bg-light py-2" id="{{ key }}" ondrop="drop(event)" ondragover="allowDrop(event)">
                         <h5 class="text-center">
                             {{ val }}
                         </h5>    
@@ -49,8 +49,13 @@
                                                     {% elif task.state == 'IN_PROGRESS'%}bg-warning
                                                     {% elif task.state == 'DONE'%}bg-success
                                                     {% endif %}
-                                                ">
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;{{ task.id }}&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                                                ">{{ task.project }}</div>
+                                                <div class="rounded-2 d-inline p-1 fw-semibold small text-white project-name
+                                                    {% if task.priority == 'LOW' %}teal-500 
+                                                    {% elif task.priority == 'MEDIUM'%}orange-400
+                                                    {% elif task.priority == 'HIGH'%}red-400
+                                                    {% endif %}
+                                                ">{{ task.priority }}</div>
                                             </div>
                                             <div class="card-footer text-muted small">
                                                 Fecha vencimiento: {{ task.date|date:"SHORT_DATE_FORMAT" }}
@@ -78,6 +83,8 @@
                                                     <dd class="col-sm-9"><p>{{ task.description }}</p></dd>
                                                     <dt class="col-sm-3">Fecha de entrega:</dt>
                                                     <dd class="col-sm-9">{{ task.date|date:"SHORT_DATE_FORMAT" }}</dd>
+                                                    <dt class="col-sm-3">Prioridad:</dt>
+                                                    <dd class="col-sm-9">{{ task.priority }}</dd>
                                                     <dt class="col-sm-3">Comentarios:</dt>
                                                     <dd class="col-sm-9">{{ task.comments }}</dd>
                                                 </dl>
