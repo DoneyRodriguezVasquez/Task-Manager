@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+    Borrar
+{% endblock title %}
+
+{% block content %}
+<section class="mt-3">
+    <h5 class="text-center">
+       Confirmar borrado de tarea
+    </h5>
+    <div class="container position-relative">
+        <div class="container my-3 my-lg-5">
+            <div class="row justify-content-center">
+                <div class="col-sm-12 col-md-6 shadow-sm mx-auto bg-light py-2">
+                    <div class="alert alert-warning" role="alert">
+                        ¿Está segur@ de querer borrar esta tarea?
+                      </div>
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        <div class="form-floating mb-3">
+                            {{ form.title }}
+                            <label for="floatingInput">Título</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            {{ form.description }}
+                            <label for="floatingTextarea">Descripción</label>
+                        </div>
+                        <div class="d-grid gap-2 col mx-auto">
+                            <button class="btn btn-lg btn-danger" type="submit">Confirmar</button>
+                            <a class="btn btn-lg btn-success" href="{% url 'task:home' %}">Regresar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
