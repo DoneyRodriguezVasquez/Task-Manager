@@ -8,9 +8,8 @@ class Project(models.Model):
         return self.name
     
 class Task(models.Model):
-    STATE_CHOICES = [
+    STATUS_CHOICES = [
         ('TO_DO', 'TO DO'),
-        ('WAITING', 'WAITING'),
         ('IN_PROGRESS', 'IN PROGRESS'),
         ('DONE', 'DONE'),
     ]
@@ -24,7 +23,7 @@ class Task(models.Model):
     description = models.TextField()
     date = models.DateField()
     assigned_to = models.ForeignKey(User, on_delete=models.CASCADE)
-    state = models.CharField(max_length=20, choices=STATE_CHOICES, default='TO_DO')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='TO_DO')
     comments = models.TextField(blank=True, null=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     priority = models.CharField(max_length=40, choices=PRIORITY_CHOICES, default='LOW')

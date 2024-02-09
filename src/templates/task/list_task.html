@@ -1,0 +1,206 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+    Tareas
+{% endblock title %}
+
+{% block content %}
+<section class="mt-3">
+    <div class="container-fluid position-relative">
+        <h5 class="text-center">
+            Administrador de tareas
+        </h5>
+        <div class="container-fluid">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2">
+                <div class="col">
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3"> 
+                            <div class="input-group mb-3">
+                                <div class="input-group-text">
+                                  <input class="form-check-input mt-0" id="user_filters" type="checkbox" name="user_filter" onClick="handleRadioButtonChange()" value="{{ request.user.id }}" aria-label="Checkbox user_filter">
+                                </div>
+                                <label for="user_filters" class="form-control">Sólo mis tareas</label>
+                              </div>
+                        </div>
+                        <div class="col-sm-3 col-md-4">
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" for="project_select">Por projecto</label>
+                                <select class="form-select" id="project_select" onchange="handleProjectSelectChange()">
+                                    <option value="0">Seleccione</option>
+                                    {% for project in projects %}
+                                        <option value="{{ project.id }}">{{ project.name }}</option>
+                                    {% endfor %}
+                                </select>
+                              </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row justify-content-end">
+                        <div class="col-auto"> 
+                            <div class="d-flex justify-content-between" >
+                                <a class="btn btn-lg btn-outline-secondary" id="btn-config" href="{% url 'task:home' %}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-box-arrow-in-left" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M10 3.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 1 0v2A1.5 1.5 0 0 1 9.5 14h-8A1.5 1.5 0 0 1 0 12.5v-9A1.5 1.5 0 0 1 1.5 2h8A1.5 1.5 0 0 1 11 3.5v2a.5.5 0 0 1-1 0z"/>
+                                        <path fill-rule="evenodd" d="M4.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H14.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708z"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-auto"> 
+                            <div class="d-flex justify-content-between" >
+                                <a class="btn btn-lg btn-outline-secondary" id="btn-config" href="{% url 'task:create_task' %}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-card-checklist" viewBox="0 0 16 16">
+                                        <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2z"/>
+                                        <path d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0M7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0"/>
+                                      </svg>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-auto"> 
+                            <div class="d-flex justify-content-between" >
+                                <a class="btn btn-lg btn-outline-secondary" id="btn-config" href="{% url 'task:report' %}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-bar-chart-line" viewBox="0 0 16 16">
+                                        <path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1zm1 12h2V2h-2zm-3 0V7H7v7zm-5 0v-3H2v3z"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-auto"> 
+                            <div class="d-flex justify-content-between" >
+                                <a class="btn btn-lg btn-outline-secondary" id="btn-config" href="{% url 'task:config' %}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
+                                        <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0"/>
+                                        <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid my-3 my-lg-5">
+            <div class="row row-cols-sm-1 row-cols-md-2 justify-content-center vh-100">
+                {% for key,val in status.items %}
+                    <div class="col-sm-12 col-md-3 shadow-sm mx-2 bg-light py-2 px-4" id="{{ key }}" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        <h5 class="text-center">
+                            {{ val }}
+                        </h5>    
+                        {% for task in tasks %}
+                            {% if task.status == key %}
+                                <div class="box-sh d-flex flex-column align-items-center justify-content-center mt-3">
+                                    <!-- card -->
+                                    <div id="{{ task.status }}{{ task.id }}" ondragstart="dragStart(event)" draggable="true"
+                                        class="card rounded-0 w-100 mb-3 border-0 border-start border-3 shadow-sm
+                                            {% if task.status == 'TO_DO' %}border-primary 
+                                            {% elif task.status == 'IN_PROGRESS'%}border-warning
+                                            {% elif task.status == 'DONE'%}border-success
+                                            {% endif %}
+                                            ">
+                                        <div class="card-header d-inline p-1 fw-semibold text-muted">
+                                            {{ task.title }}
+                                        </div>
+                                        <a class="text-decoration-none text-dark" data-bs-toggle="modal" data-bs-target="#{{ task.status }}-{{ task.id }}">
+                                            <div class="card-body px-3 py-3">
+                                                <input hidden value="{{ task.id }}" name="{{ task.status }}" class="properties">
+                                                <div class="card-text mb-2"><p class="">{{ task.description|truncatewords:20 }}</p></div>
+                                                <div class="rounded-2 d-inline p-1 fw-semibold small text-white project-name
+                                                    {% if task.status == 'TO_DO' %}bg-primary 
+                                                    {% elif task.status == 'IN_PROGRESS'%}bg-warning
+                                                    {% elif task.status == 'DONE'%}bg-success
+                                                    {% endif %}
+                                                ">{{ task.project }}</div>
+                                                <div class="rounded-2 d-inline p-1 fw-semibold small text-white project-name
+                                                    {% if task.priority == 'LOW' %}teal-500 
+                                                    {% elif task.priority == 'MEDIUM'%}orange-400
+                                                    {% elif task.priority == 'HIGH'%}red-400
+                                                    {% endif %}
+                                                ">{{ task.priority }}</div>
+                                            </div>
+                                            <div class="card-footer text-muted small">
+                                                <div class="d-flex justify-content-between">
+                                                    Fecha vencimiento: {{ task.date|date:"d M Y" }}
+                                                    <div class="rounded-2 p-1 fw-semibold bg-dark small text-white project-name">{{ task.assigned_to }}</div>
+                                                </div>
+
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- Modal -->
+                                <div class="modal fade" id="{{ task.status }}-{{ task.id }}" tabindex="-1" aria-labelledby="{{ task.status }}-{{ task.id }}{{ task.date|date:"SHORT_DATE_FORMAT" }}" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="{{ task.status }}-{{ task.id }}{{ task.date|date:"SHORT_DATE_FORMAT" }}">Detalle de la tarea</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form>
+                                                    <div class="row mb-3">
+                                                      <label for="{{ task.title|slice:':25'|cut:" " }}{{ task.id }}" class="col-sm-2 col-form-label fw-bold">Título:</label>
+                                                      <div class="col-sm-3">
+                                                        <input type="text" class="form-control" disabled value="{{ task.title}}" id="{{ task.title|slice:':25'|cut:" " }}{{ task.id }}">
+                                                      </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <label for="{{ task.description|slice:':5'|cut:" " }}{{ task.title|slice:':25'|cut:" " }}{{ task.assigned_to|slice:':3'|cut:" " }}" class="col-sm-2 col-form-label fw-bold">Responsable:</label>
+                                                        <div class="col-sm-3">
+                                                          <input type="text" class="form-control" disabled value="{{ task.assigned_to }}" id="{{ task.description|slice:':5'|cut:" " }}{{ task.title|slice:':25'|cut:" " }}{{ task.assigned_to|slice:':3'|cut:" " }}">
+                                                        </div>
+                                                        <label for="{{ task.id }}" class="col-sm-2 col-form-label text-end fw-bold">Estado:</label>
+                                                        <div class="col-sm-3">
+                                                            <select id="{{ task.id }}" class="form-select-status">
+                                                            <option value="{{ key }}" selected>{{ val }}</option>
+                                                              {% for key,val in status.items %}
+                                                              <option value="{{ key }}">{{ val }}</option>
+                                                              {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <label for="{{ task.title|slice:':15'|cut:" " }}{{ task.description|slice:':25'|cut:" " }}" class="col-sm-2 col-form-label fw-bold">Descripción de la tarea:</label>
+                                                        <div class="col-sm-10">
+                                                          <textarea type="text" class="form-control" disabled id="{{ task.title|slice:':15'|cut:" " }}{{ task.description|slice:':25'|cut:" " }}">{{ task.description}}</textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <label for="{{ task.description|slice:':15'|cut:" " }}{{ task.title|slice:':5'|cut:" " }}{{ task.date|slice:':10'|cut:" " }}" class="col-sm-2 col-form-label fw-bold">Fecha de entrega:</label>
+                                                        <div class="col-sm-3">
+                                                          <input type="text" class="form-control" disabled value="{{ task.date|date:"SHORT_DATE_FORMAT" }}" id="{{ task.description|slice:':15'|cut:" " }}{{ task.title|slice:':5'|cut:" " }}{{ task.date|slice:':10'|cut:" " }}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <label for="{{ task.description|slice:':9'|cut:" " }}{{ task.title|slice:':15'|cut:" " }}{{ task.priority|slice:':3'|cut:" " }}" class="col-sm-2 col-form-label fw-bold">Prioridad:</label>
+                                                        <div class="col-sm-3">
+                                                          <input type="text" class="form-control" disabled value="{{ task.priority }}" id="{{ task.description|slice:':9'|cut:" " }}{{ task.title|slice:':15'|cut:" " }}{{ task.priority|slice:':3'|cut:" " }}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <label for="{{ task.description|slice:':25'|cut:" " }}{{ task.title|slice:':15'|cut:" " }}" class="col-sm-2 col-form-label fw-bold">Comentarios:</label>
+                                                        <div class="col-sm-10">
+                                                          <input type="text" class="form-control" disabled value="{{ task.comments }}" id="{{ task.description|slice:':25'|cut:" " }}{{ task.title|slice:':15'|cut:" " }}">
+                                                        </div>
+                                                    </div>
+
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" onClick="refreshPage()" data-bs-dismiss="modal">Cerrar</button>
+                                                <a class="btn btn-primary" onClick="refreshPage()" href="{% url 'task:edit_task' task.id %}">Editar</a>
+                                                <a class="btn btn-danger" onClick="refreshPage()" href="{% url 'task:delete_task' task.id %}">Borrar</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

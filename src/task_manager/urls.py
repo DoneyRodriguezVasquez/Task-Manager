@@ -23,6 +23,7 @@ from task.views import logout_view
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('task.urls', namespace= 'task')),
+    path('', include('portfolio.urls', namespace= 'portfolio')),
     path("accounts/", include("django.contrib.auth.urls")),
     path("logout/", logout_view, name='logout' ),
 ]

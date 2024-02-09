@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div class="row justify-content-center">
-                <div class="col-6 shadow-sm mx-2 bg-light py-2">
+                <div class="col-sm-12 col-md-6 shadow-sm mx-2 bg-light py-2">
                     {% if next %}
                         {% if user.is_authenticated %}
                             <p class="text-center text-danger">Su cuenta no tiene acceso a esta página. Para proceder, inicie sesión con una cuenta que tenga acceso.</p>
@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="row justify-content-center">
-                <div class="col-6 shadow-sm mx-auto bg-light py-2">
+                <div class="col-sm-12 col-md-6 shadow-sm mx-auto bg-light py-2">
                     <form method="post" action="">
                         {% csrf_token %}
                         

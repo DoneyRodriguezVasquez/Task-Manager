@@ -36,7 +36,7 @@
                             <label for="floatingSelect">Asignado a</label>
                         </div>
                         <div class="form-floating mb-3">
-                            {{ form.state }}
+                            {{ form.statu }}
                             <label for="floatingSelect2">Estado</label>
                         </div>
                         <div class="form-floating mb-3">
@@ -49,7 +49,7 @@
                         </div>
                         <div class="d-grid gap-2 col mx-auto">
                             <button class="btn btn-lg btn-primary" type="submit">Guardar</button>
-                            <a class="btn btn-lg btn-success" href="{% url 'task:home' %}">Regresar</a>
+                            <a class="btn btn-lg btn-success" href="{% url 'task:task_list' %}">Regresar</a>
                         </div>
                        
                     </form>

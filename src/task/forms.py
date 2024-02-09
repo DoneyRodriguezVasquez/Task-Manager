@@ -4,7 +4,7 @@ from .models import Task, Project
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = ['title', 'description', 'project', 'date', 'assigned_to', 'state','priority', 'comments']
+        fields = ['title', 'description', 'project', 'date', 'assigned_to', 'status','priority', 'comments']
         widgets = {
             'title' : forms.TextInput(
                 attrs={
@@ -39,7 +39,7 @@ class TaskForm(forms.ModelForm):
                 'aria-label': '',
                 }
             ),
-            'state': forms.Select(
+            'status': forms.Select(
                 attrs={
                     'class': 'form-select',
                     'id': 'floatingSelect2',

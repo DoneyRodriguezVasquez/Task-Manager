@@ -1,3 +1,9 @@
+@@ -0,0 +1,160 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
 # C extensions
 *.so
 
@@ -52,8 +58,9 @@ cover/
 
 # Django stuff:
 *.log
+local_settings.py
+db.sqlite3
 db.sqlite3-journal
-migrations/
 
 # Flask stuff:
 instance/
