@@ -154,8 +154,8 @@
                                                         <div class="col-sm-3">
                                                             <select id="{{ task.id }}" class="form-select-status">
                                                             <option value="{{ key }}" selected>{{ val }}</option>
-                                                              {% for key,val in status.items %}
-                                                              <option value="{{ key }}">{{ val }}</option>
+                                                              {% for k,v in status.items %}
+                                                              <option value="{{ k }}">{{ v }}</option>
                                                               {% endfor %}
                                                             </select>
                                                         </div>

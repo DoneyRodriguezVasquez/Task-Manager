@@ -63,7 +63,7 @@
     <script src="{% static  'js/scripts.js'%}"></script>
     <script>
       setTimeout(function() {
-          bootstrap.Alert.getOrCreateInstance(document.querySelector(".alert")).close();
+          bootstrap.Alert.getOrCreateInstance(document.querySelector("#alert-msg")).close();
       }, 3000);
       /* global bootstrap: false */
       (() => {
